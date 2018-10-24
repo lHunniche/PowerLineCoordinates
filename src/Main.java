@@ -8,15 +8,15 @@ public class Main
 
     public static void main(String[] args) throws ExecutionException, InterruptedException
     {
-//        long startId = 2232529700L;
-//        long endId = startId + 200;
         long startId = 0;
-        long endId = startId + 1000;
+        long endId = startId + 5000;
+//        long startId = 0;
+//        long endId = startId + 1000;
         long timeStart = System.currentTimeMillis();
         AtomicInteger workComplete = new AtomicInteger(1);
         Collection<Future<?>> futures = new LinkedList<Future<?>>();
 
-        System.out.println("Begynder " + (endId - startId) + " HTTP kald...");
+        System.out.println("Beginning " + (endId - startId) + " HTTP calls...");
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
         for (long i = startId; i < endId; i++)
         {
@@ -24,7 +24,7 @@ public class Main
             futures.add(executor.submit(() ->
             {
                 HttpCoordinateManager.cacheCoordinatesFromId(finalI);
-                System.out.println(workComplete.getAndIncrement() + " kald lavet...");
+                System.out.println(workComplete.getAndIncrement() + " calls made...");
             }));
 
 
@@ -54,6 +54,8 @@ public class Main
         System.out.println("Danish nodes: " + HttpCoordinateManager.danishNodes);
         System.out.println("Other nodes: " + HttpCoordinateManager.notDanishNodes);
         System.out.println("Total nodes searched: " + HttpCoordinateManager.getTotalCount());
+
+        CSVGenerator.writeDataLineByLine(HttpCoordinateManager.coordinates);
 
         executor.shutdown();
     }

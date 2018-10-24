@@ -3,14 +3,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CSVGenerator {
+public class CSVGenerator
+{
 
-    public void writeDataLineByLine(ArrayList<Coordinate> coordinates)
+    public static void writeDataLineByLine(ArrayList<Coordinate> coordinates)
     {
         // first create file object for file placed at location
         // specified by filepath
         File file = new File("Pylon.csv");
-        try {
+        try
+        {
             // create FileWriter object with file as parameter
             FileWriter writer = new FileWriter(file);
 
@@ -22,17 +24,22 @@ public class CSVGenerator {
 
 
             // add data to csv
-            for (Coordinate coordinate:coordinates) {
-                String data1 = coordinate.getLatitude()+","+coordinate.getLongitude()+","+coordinate.getNodeId()+",#FF0000,Pylon";
-                writer.write(data1);
-                writer.write("\n");
+            for (Coordinate coordinate : coordinates)
+            {
+                if (coordinate.isDenmark())
+                {
+                    String data1 = coordinate.getLatitude() + "," + coordinate.getLongitude() + "," + coordinate.getNodeId() + ",#FF0000,Pylon";
+                    writer.write(data1);
+                    writer.write("\n");
+                }
             }
 
 
             // closing writer connection
             writer.close();
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

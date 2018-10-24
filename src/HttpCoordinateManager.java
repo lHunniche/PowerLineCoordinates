@@ -86,19 +86,19 @@ public class HttpCoordinateManager
                 @Override
                 public void warning(SAXParseException exception) throws SAXException
                 {
-                    errorCount++;
+
                 }
 
                 @Override
                 public void error(SAXParseException exception) throws SAXException
                 {
-                    errorCount++;
+
                 }
 
                 @Override
                 public void fatalError(SAXParseException exception) throws SAXException
                 {
-                    errorCount++;
+
                 }
             });
 
