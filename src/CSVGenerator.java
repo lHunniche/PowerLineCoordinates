@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class CSVGenerator {
 
-    public void writeDataLineByLine(ArrayList<Coordinate> coordinates)
+    public static void writeDataLineByLine(ArrayList<Coordinate> coordinates)
     {
         // first create file object for file placed at location
         // specified by filepath
@@ -23,9 +23,10 @@ public class CSVGenerator {
 
             // add data to csv
             for (Coordinate coordinate:coordinates) {
+                if(coordinate.isDenmark()){
                 String data1 = coordinate.getLatitude()+","+coordinate.getLongitude()+","+coordinate.getNodeId()+",#FF0000,Pylon";
                 writer.write(data1);
-                writer.write("\n");
+                writer.write("\n");}
             }
 
 
