@@ -8,8 +8,8 @@ public class Main
 
     public static void main(String[] args) throws ExecutionException, InterruptedException
     {
-        long startId = 0;
-        long endId = startId + 5000;
+        long startId = 1142623595;
+        long endId = startId + 5;
 //        long startId = 0;
 //        long endId = startId + 1000;
         long timeStart = System.currentTimeMillis();

@@ -112,15 +112,21 @@ public class HttpCoordinateManager
                 Node node = list.item(i);
                 String lat = node.getAttributes().getNamedItem("lat").getNodeValue();
                 String lon = node.getAttributes().getNamedItem("lon").getNodeValue();
-                if (lat != null && lon != null)
+                String powerType = node.getUserData("power").toString();
+                System.out.println(node.getAttributes().getLength());
+                System.out.println(powerType);
+
+
+                if (lat != null && lon != null /*&& (powerType != null && powerType.equalsIgnoreCase("tower"))*/)
                 {
-                    coordinates.add(new Coordinate()
+                    new Coordinate()
                     {{
                         setLatitude(lat);
                         setLongitude(lon);
                         setNodeId(nodeId);
                         if(DenmarkChecker.isThisDenmark(this))
                         {
+                            coordinates.add(this);
                             setDenmark(true);
                             danishNodes++;
                         }
@@ -128,7 +134,7 @@ public class HttpCoordinateManager
                         {
                             notDanishNodes++;
                         }
-                    }});
+                    }};
                 }
 
 
