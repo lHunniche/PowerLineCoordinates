@@ -36,7 +36,7 @@ public class DenmarkChecker
             int status = con.getResponseCode();
             if (status != 200)
             {
-
+                HttpCoordinateManager.errorCount++;
                 return false;
                 //TODO: Log an error
 
@@ -78,7 +78,7 @@ public class DenmarkChecker
             e.printStackTrace();
         }
 
-
+        HttpCoordinateManager.errorCount++;
         return false;
     }
 }

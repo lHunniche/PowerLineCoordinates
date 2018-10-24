@@ -25,6 +25,7 @@ public class HttpCoordinateManager
     public static ArrayList<Coordinate> coordinates = new ArrayList<>();
     public static int errorCount = 0;
     public static int danishNodes = 0;
+    public static int notDanishNodes = 0;
 
     private HttpCoordinateManager()
     {
@@ -85,19 +86,19 @@ public class HttpCoordinateManager
                 @Override
                 public void warning(SAXParseException exception) throws SAXException
                 {
-
+                    errorCount++;
                 }
 
                 @Override
                 public void error(SAXParseException exception) throws SAXException
                 {
-
+                    errorCount++;
                 }
 
                 @Override
                 public void fatalError(SAXParseException exception) throws SAXException
                 {
-
+                    errorCount++;
                 }
             });
 
@@ -122,6 +123,10 @@ public class HttpCoordinateManager
                         {
                             setDenmark(true);
                             danishNodes++;
+                        }
+                        else
+                        {
+                            notDanishNodes++;
                         }
                     }});
                 }
@@ -159,5 +164,10 @@ public class HttpCoordinateManager
 
         //TODO: Log an error
 
+    }
+
+    public static int getTotalCount()
+    {
+        return danishNodes + notDanishNodes + errorCount;
     }
 }
