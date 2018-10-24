@@ -24,7 +24,6 @@ public class DenmarkChecker
             String latlon = lat + "," + lon;
             sBuilder.append(latlon);
             sBuilder.append("&key=");
-            System.out.println("asd");
             sBuilder.append(apiKey);
 
             String requestUrl = sBuilder.toString();
