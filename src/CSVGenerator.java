@@ -5,10 +5,7 @@ import java.util.ArrayList;
 
 public class CSVGenerator {
 
-
-
-
-    public static void writeDataLineByLine(ArrayList<Coordinate> coordinates)
+    public void writeDataLineByLine(ArrayList<Coordinate> coordinates)
     {
         // first create file object for file placed at location
         // specified by filepath
