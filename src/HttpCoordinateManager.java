@@ -27,19 +27,6 @@ public class HttpCoordinateManager
     public static int danishNodes = 0;
     public static int notDanishNodes = 0;
 
-    private HttpCoordinateManager()
-    {
-
-    }
-
-    public static HttpCoordinateManager getInstance()
-    {
-        if (ourInstance == null)
-        {
-            ourInstance = new HttpCoordinateManager();
-        }
-        return ourInstance;
-    }
 
     public static void cacheCoordinatesFromId(long nodeId)
     {
@@ -112,9 +99,22 @@ public class HttpCoordinateManager
                 Node node = list.item(i);
                 String lat = node.getAttributes().getNamedItem("lat").getNodeValue();
                 String lon = node.getAttributes().getNamedItem("lon").getNodeValue();
-                String powerType = node.getUserData("power").toString();
-                System.out.println(node.getAttributes().getLength());
-                System.out.println(powerType);
+
+                NodeList children = node.getChildNodes();
+                for (int j = 0; i < children.getLength(); j++)
+                {
+                    if (children.item(j) != null)
+                    {
+                        if (children.item(j).getAttributes() != null)
+                        {
+                            System.out.println(children.item(j).getAttributes().item(0).getNodeValue());
+                            System.out.println(children.item(j).getAttributes().item(1).getNodeValue());
+                        }
+                    }
+
+                }
+//                String powerType = node.getFirstChild().getAttributes()''
+//                System.out.println(powerType);
 
 
                 if (lat != null && lon != null /*&& (powerType != null && powerType.equalsIgnoreCase("tower"))*/)
@@ -124,7 +124,7 @@ public class HttpCoordinateManager
                         setLatitude(lat);
                         setLongitude(lon);
                         setNodeId(nodeId);
-                        if(DenmarkChecker.isThisDenmark(this))
+                        if (DenmarkChecker.isThisDenmark(this))
                         {
                             coordinates.add(this);
                             setDenmark(true);
@@ -139,12 +139,6 @@ public class HttpCoordinateManager
 
 
             }
-
-
-
-
-
-
         }
         catch (MalformedURLException e)
         {
@@ -175,5 +169,10 @@ public class HttpCoordinateManager
     public static int getTotalCount()
     {
         return danishNodes + notDanishNodes + errorCount;
+    }
+
+    public static void main(String[] args)
+    {
+        cacheCoordinatesFromId(2232529747L);
     }
 }
