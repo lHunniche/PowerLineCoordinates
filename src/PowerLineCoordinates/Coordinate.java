@@ -1,3 +1,5 @@
+package PowerLineCoordinates;
+
 public class Coordinate
 {
     private String latitude = "";

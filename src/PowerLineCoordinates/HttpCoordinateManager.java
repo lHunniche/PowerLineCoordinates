@@ -1,3 +1,5 @@
+package PowerLineCoordinates;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,14 +20,15 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HttpCoordinateManager
 {
     private static HttpCoordinateManager ourInstance = new HttpCoordinateManager();
     public static ArrayList<Coordinate> coordinates = new ArrayList<>();
-    public static int errorCount = 0;
-    public static int danishNodes = 0;
-    public static int notDanishNodes = 0;
+    public static final AtomicInteger errorCount = new AtomicInteger(0);
+    public static final AtomicInteger danishNodes = new AtomicInteger(0);
+    public static final AtomicInteger notDanishNodes = new AtomicInteger(0);
 
 
     public static void cacheCoordinatesFromId(long nodeId)
@@ -47,10 +50,8 @@ public class HttpCoordinateManager
             int status = con.getResponseCode();
             if (status != 200)
             {
-                errorCount++;
+                errorCount.getAndIncrement();
                 return;
-                //TODO: Log an error
-
             }
 
             // Read the HTTP response into the BufferedReader
@@ -73,7 +74,7 @@ public class HttpCoordinateManager
                 @Override
                 public void warning(SAXParseException exception) throws SAXException
                 {
-
+                    errorCount.getAndIncrement();
                 }
 
                 @Override
@@ -85,7 +86,7 @@ public class HttpCoordinateManager
                 @Override
                 public void fatalError(SAXParseException exception) throws SAXException
                 {
-
+                    errorCount.getAndIncrement();
                 }
             });
 
@@ -101,23 +102,21 @@ public class HttpCoordinateManager
                 String lon = node.getAttributes().getNamedItem("lon").getNodeValue();
 
                 NodeList children = node.getChildNodes();
-                for (int j = 0; i < children.getLength(); j++)
+                boolean isPowerLine = false;
+                for (int j = 0; j < children.getLength(); j++)
                 {
-                    if (children.item(j) != null)
+                    if (children.item(j) != null && children.item(j).getAttributes() != null && children.item(j).getAttributes().item(0) != null)
                     {
-                        if (children.item(j).getAttributes() != null)
+                        if (children.item(j).getAttributes().item(0).getNodeValue().contentEquals("power"))
                         {
-                            System.out.println(children.item(j).getAttributes().item(0).getNodeValue());
-                            System.out.println(children.item(j).getAttributes().item(1).getNodeValue());
+                            isPowerLine = true;
                         }
                     }
 
                 }
-//                String powerType = node.getFirstChild().getAttributes()''
-//                System.out.println(powerType);
 
 
-                if (lat != null && lon != null /*&& (powerType != null && powerType.equalsIgnoreCase("tower"))*/)
+                if (lat != null && lon != null && isPowerLine)
                 {
                     new Coordinate()
                     {{
@@ -128,13 +127,17 @@ public class HttpCoordinateManager
                         {
                             coordinates.add(this);
                             setDenmark(true);
-                            danishNodes++;
+                            danishNodes.getAndIncrement();
                         }
                         else
                         {
-                            notDanishNodes++;
+                            notDanishNodes.getAndIncrement();
                         }
                     }};
+                }
+                else
+                {
+                    errorCount.getAndIncrement();
                 }
 
 
@@ -168,7 +171,7 @@ public class HttpCoordinateManager
 
     public static int getTotalCount()
     {
-        return danishNodes + notDanishNodes + errorCount;
+        return danishNodes.get() + notDanishNodes.get() + errorCount.get();
     }
 
     public static void main(String[] args)
