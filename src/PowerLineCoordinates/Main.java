@@ -56,7 +56,7 @@ public class Main
         long timeEnd = System.currentTimeMillis();
         long timeTaken = timeEnd - timeStart;
 
-        System.out.println("-------------------------------------------\"");
+        System.out.println("-------------------------------------------");
 
         System.out.println("Errors: " + HttpCoordinateManager.errorCount.get());
         System.out.println("Danish nodes: " + HttpCoordinateManager.danishNodes.get());
@@ -66,7 +66,7 @@ public class Main
                 TimeUnit.MILLISECONDS.toMinutes(timeTaken),
                 TimeUnit.MILLISECONDS.toSeconds(timeTaken) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeTaken))
         ));
-        System.out.println("-------------------------------------------\"");
+        System.out.println("-------------------------------------------");
 
         System.out.println("\n\nGenerating CSV file...");
         CSVGenerator.writeDataLineByLine(HttpCoordinateManager.coordinates);

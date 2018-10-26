@@ -1,2 +1,3 @@
-javac -cp PowerLineCoordinates/Resources/json-20180813.jar PowerLineCoordinates/*.java
-java PowerLineCoordinates.Main
+javac -cp src/PowerLineCoordinates/Resources/json-20180813.jar -d out src/PowerLineCoordinates/*.java
+
+java -classpath out PowerLineCoordinates.Main
