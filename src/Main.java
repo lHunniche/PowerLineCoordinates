@@ -33,7 +33,7 @@ public class Main
             futures.add(executor.submit(() ->
             {
                 HttpCoordinateManager.cacheCoordinatesFromId(finalI);
-                System.out.println(workComplete.getAndIncrement() + " calls made...");
+                System.out.println(workComplete.getAndIncrement() + " calls ma...");
             }));
 
 

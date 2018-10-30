@@ -26,7 +26,7 @@ public class CSVGenerator
             // add data to csv
             for (Coordinate coordinate : coordinates)
             {
-                    String data1 = coordinate.getLatitude() + "," + coordinate.getLongitude() + "," + coordinate.getNodeId() + ",#FF0000,Pylon";
+                    String data1 = coordinate.getLatitude() + "," + coordinate.getLongitude() + "," + "POWERLINE_ID" + ",#FF0000,Pylon";
                     writer.write(data1);
                     writer.write("\n");
             }
