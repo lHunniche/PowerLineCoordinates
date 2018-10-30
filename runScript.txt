@@ -1,3 +1,3 @@
 javac -cp src/PowerLineCoordinates/Resources/json-20180813.jar -d out src/PowerLineCoordinates/*.java
 
-java -classpath out PowerLineCoordinates.Main
+java -classpath out Main
